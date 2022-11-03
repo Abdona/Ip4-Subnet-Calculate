@@ -12,4 +12,7 @@ echo "<br>";
 echo($network->getSubnetMaskForProperClass());
 echo "<br>";
 echo($device->calculateNetId($network->defineClassType($device->getIp())));
-
+echo "<br>";
+$x = sprintf('%08b',10);
+echo "<br>";
+echo (1001 & 1000);

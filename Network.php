@@ -34,4 +34,14 @@ class Network
     {
         return $this->subNetMask[$this->networkClass];
     }
+
+    public function numberOfPossibleClients(): int
+    {
+        return match ($this->networkClass) {
+           "A"=>16777214,
+           "B"=>65534,
+           "C"=>254,
+           "D", "E" =>0
+        };
+    }
 }
