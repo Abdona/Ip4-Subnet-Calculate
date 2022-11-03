@@ -3,20 +3,17 @@
 class Network
 {
     private array $ipUpperRange;
-    private array $subNetMask;
+    private array $subNetMasks;
     private string $networkClass;
-    #private int $numberOfConnectedDevices;
+    private string $networkAddress;
+    private string $subNetMask;
 
     public function __construct()
     {
         $this->ipUpperRange = ['A'=> 127, 'B'=> 191, 'C'=> 223, 'D'=> 239,'E'=> 255];
-        $this->subNetMask = ['A'=> '255.0.0.0', 'B'=> '255.255.0.0', 'C'=> '255.255.255.0'];
+        $this->subNetMasks = ['A'=> '255.0.0.0', 'B'=> '255.255.0.0', 'C'=> '255.255.255.0'];
+        $this->networkAddress = '';
     }
-
-    ##public function getNumberOfConnectedDevices(): int
-    ##{
-        ##return $this->numberOfConnectedDevices;
-    ##}
 
     public function defineClassType(string $ip): string
     {
@@ -30,12 +27,13 @@ class Network
         return '0';
     }
 
-    public function getSubnetMaskForProperClass(): string
+    public function getSubnetMaskForClass(): string
     {
-        return $this->subNetMask[$this->networkClass];
+        $this->subNetMask = $this->subNetMasks[$this->networkClass];
+        return $this->subNetMask ;
     }
 
-    public function numberOfPossibleClients(): int
+    public function numberOfPossibleConnectedClients(): int
     {
         return match ($this->networkClass) {
            "A"=>16777214,
@@ -43,5 +41,18 @@ class Network
            "C"=>254,
            "D", "E" =>0
         };
+    }
+
+    public function calculateNetworkAddress(string $hostIp):string
+    {
+        $hostIp = explode('.', $hostIp);
+        $subnetMask = explode('.', $this->subNetMask);
+        while ($hostIp){
+            $this->networkAddress =
+                (intval(array_pop($hostIp)) & intval(array_pop($subnetMask))) .
+                '.' . $this->networkAddress;
+        }
+
+        return $this->networkAddress;
     }
 }
