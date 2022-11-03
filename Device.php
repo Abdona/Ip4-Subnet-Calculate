@@ -17,28 +17,19 @@ class Device
         return $this->ip;
     }
 
-    public function setIp(string $ip): void
-    {
-        $this->ip = $ip;
-    }
-
     public function getNetId(): string
     {
         return $this->netId;
     }
 
-    public function setNetId(string $netId): void
+    public function calculateNetId (string $classType): string
     {
-        $this->netId = $netId;
-    }
-
-    public function getNetwork(): Network
-    {
-        return $this->network;
-    }
-
-    public function setNetwork(Network $network): void
-    {
-        $this->network = $network;
+        $ipSeperated = explode('.',$this->ip);
+        return match ($classType) {
+            "A" => implode('.', array_slice($ipSeperated, 0, 1)),
+            "B" => implode('.', array_slice($ipSeperated, 0, 2)),
+            "C" => implode('.', array_slice($ipSeperated, 0, 3)),
+            default => implode('.', array_slice($ipSeperated, 0, 4)),
+        };
     }
 }
