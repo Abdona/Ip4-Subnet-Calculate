@@ -33,13 +33,13 @@ class Network
         return $this->subNetMask ;
     }
 
-    public function numberOfPossibleConnectedClients(): int
+    public function numberOfPossibleConnectedClients(): string
     {
         return match ($this->networkClass) {
-           "A"=>16777214,
-           "B"=>65534,
-           "C"=>254,
-           "D", "E" =>0
+           "A"=>'167,77,214',
+           "B"=>'65,534',
+           "C"=>'254',
+           "D", "E" =>'0'
         };
     }
 
